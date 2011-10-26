@@ -3,7 +3,7 @@ Hubot
 
 This is a version of GitHub's Campfire bot, hubot.  He's pretty cool.
 
-This version is designed to be deployed on heroku.
+This version is designed to be deployed on DotCloud.
 
 Playing with Hubot
 ==================
@@ -48,34 +48,36 @@ hubot-scripts.json file in this repo.
 Deployment
 ==========
 
-    % heroku create --stack cedar
-    % git push heroku master
-    % heroku ps:scale app=1
-    % heroku addons:add redistogo:nano
+Clone [hubot-dotcloud](https://github.com/miyagawa/hubot-dotcloud) and
+the repository has all the modifications you need for a deployment on
+DotCloud.
 
-You'll need to edit the `Procfile` to say what the bot's name is.
+    % git clone git://github.com/miyagawa/hubot-dotcloud.git
+    % cd hubot-dotcloud
+    % dotcloud create hubot
+    % dotcloud push hubot
 
 Hubot also needs four environmental variables set to run and to keep him
-running on heroku.
+running on DotCloud.
 
 Campfire Variables
 ------------------
 
 Create a separate user for your bot and get their token from the web UI.
 
-    % heroku config:add HUBOT_CAMPFIRE_TOKEN="..."
+    % dotcloud var hubot set HUBOT_CAMPFIRE_TOKEN="..."
 
 Get the numeric ids of the rooms you want the bot to join, comma
 delimited.
 
-    % heroku config:add HUBOT_CAMPFIRE_ROOMS="42,1024"
+    % dotcloud var hubot set HUBOT_CAMPFIRE_ROOMS="42,1024"
 
 Add the subdomain hubot should connect to. If you web URL looks like
 `http://mysubdomain.campfirenow.com` then you'd add it like this.
 
-    % heroku config:add HUBOT_CAMPFIRE_ACCOUNT="mysubdomain"
+    % dotcloud var hubot set HUBOT_CAMPFIRE_ACCOUNT="mysubdomain"
 
 Restart the bot
 ---------------
-You may want to get comfortable with `heroku logs` and `heroku restart`
+You may want to get comfortable with `dotcloud restart hubot.robot`
 if you're having issues.
