@@ -9,11 +9,17 @@ process.env.REDISTOGO_URL = environment.DOTCLOUD_REDIS_REDIS_URL
 for k, v of environment
   process.env[k] = v
 
+adapter = ''
+if environment.HUBOT_IRC_NICK
+  adapter = 'irc'
+else if environment.HUBOT_CAMPFIRE_ROOMS
+  adapter = 'campfire'
+
 name = environment.HUBOT_IRC_NICK || 'Hubot'
 exec = require('child_process').execFile
 exec(
   '/home/dotcloud/current/node_modules/.bin/coffee',
-  [ 'bin/hubot', '-a', 'irc', '-n', name ],
+  [ 'bin/hubot', '-a', adapter, '-n', name ],
   { env: process.env },
   (err, stdout, stderr) ->
      console.log stdout
