@@ -1,21 +1,23 @@
 #!/usr/bin/env coffee
 
-# --- CHANGE BELOW ---
-nick = 'hubotcloud'
-server = 'irc.freenode.org'
-rooms = '#change_this'
-# --- CHANGE ABOVE ---
-
 fs = require 'fs'
 json = fs.readFileSync('/home/dotcloud/environment.json')
 environment = JSON.parse(json)
 
 process.env.REDISTOGO_URL = environment.DOTCLOUD_REDIS_REDIS_URL
-process.env.HUBOT_IRC_SERVER = server
-process.env.HUBOT_IRC_ROOMS = rooms
-process.env.HUBOT_IRC_NICK = nick
+process.env.HUBOT_IRC_SERVER = environment.HUBOT_IRC_SERVER
+process.env.HUBOT_IRC_ROOMS = environment.HUBOT_IRC_ROOMS
+process.env.HUBOT_IRC_NICK = environment.HUBOT_IRC_NICK
 
 exec = require('child_process').execFile
-exec('/home/dotcloud/current/node_modules/.bin/coffee', [ 'bin/hubot', '-a', 'irc', '-n', nick ], { env: process.env })
-
+exec(
+  '/home/dotcloud/current/node_modules/.bin/coffee',
+  [ 'bin/hubot', '-a', 'irc', '-n', environment.HUBOT_IRC_NICK ],
+  { env: process.env },
+  (err, stdout, stderr) ->
+     console.log stdout
+     console.log stderr
+     if err != null
+       console.log "error: " + err
+)
 
