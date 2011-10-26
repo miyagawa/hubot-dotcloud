@@ -1,0 +1,4 @@
+robot:
+  type: nodejs
+redis:
+  type: redis
