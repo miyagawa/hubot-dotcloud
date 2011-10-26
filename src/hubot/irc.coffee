@@ -36,7 +36,8 @@ class IrcBot extends Robot
           user_id[from] = next_id
           next_id = next_id + 1
 
-        user = new Robot.User user_id[from], from || "user", {
+        user = new Robot.User user_id[from], {
+          name: from || "user",
           room: toRoom,
         }
 
