@@ -5,9 +5,9 @@ json = fs.readFileSync('/home/dotcloud/environment.json')
 environment = JSON.parse(json)
 
 process.env.REDISTOGO_URL = environment.DOTCLOUD_REDIS_REDIS_URL
-process.env.HUBOT_IRC_SERVER = environment.HUBOT_IRC_SERVER
-process.env.HUBOT_IRC_ROOMS = environment.HUBOT_IRC_ROOMS
-process.env.HUBOT_IRC_NICK = environment.HUBOT_IRC_NICK
+
+for k, v of environment
+  process.env[k] = v
 
 exec = require('child_process').execFile
 exec(
